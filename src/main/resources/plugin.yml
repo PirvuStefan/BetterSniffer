@@ -1,0 +1,4 @@
+name: BetterSniffer
+version: '${project.version}'
+main: whyarewesoclever.com.bettersniffer.BetterSniffer
+api-version: '1.20'

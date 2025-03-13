@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BetterSniffer:jar">
+    <output-path>$USER_HOME$/OneDrive/Desktop/java_test_1.20/plugins</output-path>
+    <root id="archive" name="BetterSniffer.jar">
+      <element id="module-output" name="BetterSniffer" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.1/annotations-24.0.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
