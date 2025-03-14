@@ -22,23 +22,28 @@ public class ReloadCommand extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] strings) {
+
         if (sender instanceof Player) {
-            if ((!sender.hasPermission("bettersniffer.commands") || !sender.hasPermission("bettersniffer.reload")) && strings[0].equalsIgnoreCase("reload")) {
+            boolean permission = sender.hasPermission("bettersniffer.commands");
+           if(!permission){
+               if( s.equals("reload") ){
+                   if( !sender.hasPermission("bettersniffer.reload"))
+                       permission = false ;
+               }
+               if( s.equals("create") ){
+                   if( !sender.hasPermission("bettersniffer.create"))
+                       permission = false ;
+               }
+           }
+           if( !permission ){
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "You do not have permission to use this command!");
-                return false;
-            }
-            if ((!sender.hasPermission("bettersniffer.commands") || !sender.hasPermission("bettersniffer.create")) && strings[0].equalsIgnoreCase("create")) {
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "You do not have permission to use this command!");
-                return false;
-            }
-        }
+               return false;
+           }
+        } // we do have permission to use the command
         tabComplete(sender, s, strings);
         //sunt un geniu mancavas
 
-        if (strings.length > 0 && (!"reload".equalsIgnoreCase(strings[0]) || !"create".equalsIgnoreCase(strings[0]))) {
-            TryAgain(sender);
-            return false;
-        }
+
 
         if (strings.length == 0) {
             if (!(sender instanceof Player)) {
@@ -47,12 +52,15 @@ public class ReloadCommand extends BukkitCommand {
             return false;
         }
 
-        if (strings.length > 1) {
-            TryAgain(sender);
+        if ( (strings.length > 1 && strings[0].equalsIgnoreCase("reload") ) ||  ( strings.length == 1 && strings[0].startsWith("r") && !strings[0].equalsIgnoreCase("reload") ) ) {
+            TryAgain(sender, "reload");
+            return false;
+        } else if ( strings.length == 1 && strings[0].startsWith("c")  && !strings[0].equalsIgnoreCase("create")) {
+            TryAgain(sender, "create"); // we do not have the create command
             return false;
         }
 
-                if (strings[0].equalsIgnoreCase("reload")) {    // arg[0] is "reload"
+        if (strings[0].equalsIgnoreCase("reload")) {    // arg[0] is "reload"
                     BetterSniffer.getInstance().reloadConfig();
                     BetterSniffer.getInstance().saveDefaultConfig();
 
@@ -65,6 +73,12 @@ public class ReloadCommand extends BukkitCommand {
 
                     return true;
                 }
+
+                // bettersniffer create <name> <chance> <worlds>
+                if( strings.length < 4){
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too few arguments . Try /bettersniffer create <name> <chance> <worlds>");
+                }
+
 
                 getLogger().info("Acum am ajuns aici");
         return true;
@@ -87,12 +101,13 @@ public class ReloadCommand extends BukkitCommand {
         return Collections.emptyList();
     }
 
-    public void TryAgain(CommandSender sender) {
-        if (sender instanceof Player) {
-            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Wrong command. Try /bettersniffer reload");
-        } else {
+    public void TryAgain(CommandSender sender, String sentance) {
+        if (sender instanceof Player)
+          if(sentance.equals("reload"))     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Wrong command. Try /bettersniffer reload");
+            else
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Wrong command. Try /bettersniffer create" );
+        else
             getLogger().info("Wrong command. Try /bettersniffer reload");
-        }
     }
 
 }
