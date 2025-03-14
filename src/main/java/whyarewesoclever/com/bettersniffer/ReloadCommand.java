@@ -99,11 +99,19 @@ public class ReloadCommand extends BukkitCommand {
                      sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#b53636") + "This is possibly due to a file already existing with the same name");
                      ((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 10, 1);
                  }
-            throw new RuntimeException(e);
+                 return false;
+            //throw new RuntimeException(e);
 
             }
 
 
+
+
+        if (sender instanceof Player) {
+            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Successfully created file " + name_id + ".yml");
+            ((Player) sender).playSound(((Player) sender).getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
+        }
+        getLogger().info("Successfully created file " + name_id + ".yml");
         return true;
     }
     @Override
