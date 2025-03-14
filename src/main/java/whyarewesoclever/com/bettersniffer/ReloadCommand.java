@@ -1,5 +1,6 @@
 package whyarewesoclever.com.bettersniffer;
 
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -91,7 +92,15 @@ public class ReloadCommand extends BukkitCommand {
              try {
             java.nio.file.Files.createFile(new java.io.File(BetterSniffer.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
              } catch (IOException e) {
+                 getLogger().warning("Could not create file " + name_id + ".yml");
+                 getLogger().warning("This is possibly due to a file already existing with the same name");
+                 if( sender instanceof Player) {
+                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#b53636") + "Could not create file " + name_id + ".yml");
+                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#b53636") + "This is possibly due to a file already existing with the same name");
+                     ((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 10, 1);
+                 }
             throw new RuntimeException(e);
+
             }
 
 
