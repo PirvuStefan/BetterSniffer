@@ -22,20 +22,28 @@ public class ReloadCommand extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] strings) {
+
         if (sender instanceof Player) {
-            if ((!sender.hasPermission("bettersniffer.commands") || !sender.hasPermission("bettersniffer.reload")) && strings[0].equalsIgnoreCase("reload")) {
+            boolean permission = sender.hasPermission("bettersniffer.commands");
+           if(!permission){
+               if( s.equals("reload") ){
+                   if( !sender.hasPermission("bettersniffer.reload"))
+                       permission = false ;
+               }
+               if( s.equals("create") ){
+                   if( !sender.hasPermission("bettersniffer.create"))
+                       permission = false ;
+               }
+           }
+           if( !permission ){
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "You do not have permission to use this command!");
-                return false;
-            }
-            if ((!sender.hasPermission("bettersniffer.commands") || !sender.hasPermission("bettersniffer.create")) && strings[0].equalsIgnoreCase("create")) {
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "You do not have permission to use this command!");
-                return false;
-            }
-        }
+               return false;
+           }
+        } // we do have permission to use the command
         tabComplete(sender, s, strings);
         //sunt un geniu mancavas
 
-        if (strings.length > 0 && (!"reload".equalsIgnoreCase(strings[0]) || !"create".equalsIgnoreCase(strings[0]))) {
+        if (strings.length > 0 && (!"reload".equalsIgnoreCase(strings[0]) && !"create".equalsIgnoreCase(strings[0])) ) {
             TryAgain(sender);
             return false;
         }
@@ -47,7 +55,7 @@ public class ReloadCommand extends BukkitCommand {
             return false;
         }
 
-        if (strings.length > 1) {
+        if (strings.length > 1 && strings[0].equalsIgnoreCase("reload")) {
             TryAgain(sender);
             return false;
         }
@@ -65,6 +73,12 @@ public class ReloadCommand extends BukkitCommand {
 
                     return true;
                 }
+
+                // bettersniffer create <name> <chance> <worlds>
+                if( strings.length < 4){
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too few arguments . Try /bettersniffer create <name> <chance> <worlds>");
+                }
+
 
                 getLogger().info("Acum am ajuns aici");
         return true;
