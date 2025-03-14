@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +74,7 @@ public class ReloadCommand extends BukkitCommand {
                     getLogger().info("BetterSniffer config reloaded!");
 
                     return true;
-                }
+        }
 
                 // bettersniffer create <name> <chance> <worlds>
                 if( strings.length < 4){
@@ -83,10 +84,16 @@ public class ReloadCommand extends BukkitCommand {
 
 
                 getLogger().info("Acum am ajuns aici");
-                String name = strings[1];
+                String name_id = strings[1];
                 String chance = strings[2];
                 List <String> biomes = new java.util.ArrayList<>(Collections.singletonList(strings[3]));
                 biomes.addAll(Arrays.asList(strings).subList(4, strings.length));
+             try {
+            java.nio.file.Files.createFile(new java.io.File(BetterSniffer.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
+             } catch (IOException e) {
+            throw new RuntimeException(e);
+            }
+
 
         return true;
     }

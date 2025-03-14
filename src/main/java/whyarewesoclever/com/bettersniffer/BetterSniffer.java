@@ -43,20 +43,24 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-
-        getServer().getPluginManager().registerEvents(this, getInstance());
-
-        File folder = new File(getDataFolder(), "Drops");
+        File folder = getDataFolder();
         if (!folder.exists()) {
             if (folder.mkdir()) {
-                getLogger().info("Folder 'Drops' created successfully!");
+                getLogger().info("Folder 'BetterSniffer' created successfully!");
             } else {
-                getLogger().severe("Failed to create folder 'Drops'.");
+                getLogger().info("Failed to create folder 'BetterSniffer'.");
             }
-        } else {
-            getLogger().info("Folder 'Drops' already exists.");
+        }
+        File folder2 = new File(getDataFolder(), "drops");
+        if (!folder2.exists()) {
+            if (folder2.mkdir()) {
+                getLogger().info("Folder 'drops' created successfully!");
+            } else {
+                getLogger().info("Failed to create folder 'drops'.");
+            }
         }
 
+        getServer().getPluginManager().registerEvents(this, getInstance());
     }
 
     @Override
