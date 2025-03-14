@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -44,6 +45,18 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
 
         getServer().getPluginManager().registerEvents(this, getInstance());
+
+        File folder = new File(getDataFolder(), "Drops");
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                getLogger().info("Folder 'Drops' created successfully!");
+            } else {
+                getLogger().severe("Failed to create folder 'Drops'.");
+            }
+        } else {
+            getLogger().info("Folder 'Drops' already exists.");
+        }
+
     }
 
     @Override
@@ -51,6 +64,8 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         // Plugin shutdown logic
         getLogger().info("BetterSniffer has been disabled!");
     }
+
+
 
 
     //@EventHandler
