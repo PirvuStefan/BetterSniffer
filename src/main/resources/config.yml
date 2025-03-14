@@ -1,0 +1,6 @@
+first_drop:
+  chance: 0.1
+  worlds:
+    - world
+    - world_nether
+    - world_the_end

@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Sniffer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -18,6 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public final class BetterSniffer extends JavaPlugin implements Listener {
 
@@ -59,6 +61,30 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
     //            }
     //        } -- this work to spawn diamond when sniffer digs the ground
 
+    public class SnifferDrop {
+
+        public String id;
+        public int chance;
+        public List< String > biomes;
+        public SnifferDrop(String id, int chance, List<String> biomes) {
+            this.id = id;
+            this.chance = chance;
+            this.biomes = biomes;
+        }
+        public SnifferDrop(List<String> biomes) {
+            this.biomes = biomes;
+        }
+        public int getintChance() {
+            return chance;
+        }
+        public String getid() {
+            return id;
+        }
+        public List<String> getBiomes() {
+            return biomes;
+        }
+
+    }
 
 
         @EventHandler
