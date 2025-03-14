@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -77,10 +78,16 @@ public class ReloadCommand extends BukkitCommand {
                 // bettersniffer create <name> <chance> <worlds>
                 if( strings.length < 4){
                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too few arguments . Try /bettersniffer create <name> <chance> <worlds>");
+                    return false;
                 }
 
 
                 getLogger().info("Acum am ajuns aici");
+                String name = strings[1];
+                String chance = strings[2];
+                List <String> biomes = new java.util.ArrayList<>(Collections.singletonList(strings[3]));
+                biomes.addAll(Arrays.asList(strings).subList(4, strings.length));
+
         return true;
     }
     @Override
