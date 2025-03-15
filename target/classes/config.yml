@@ -1,2 +1,3 @@
-test
-for sure
+# Configuration for BetterSniffer plugin
+Disable : false # Disable the plugin functionality, the plugin will no longer add the "drops" to the sniffer loot table
+OverrideVanilla : false # The sniffer will never drop the vanilla items ( seeds, bones, rotten flesh, etc. ) and will only drop the custom items configured in the plugin

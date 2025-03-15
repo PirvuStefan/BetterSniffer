@@ -92,6 +92,10 @@ public class ReloadCommand extends BukkitCommand {
                     return false;
                 }
 
+
+
+
+
         ItemStack itemInMainHand = ((Player) sender).getInventory().getItemInMainHand();
                 String material = itemInMainHand.getType().name();
         if (itemInMainHand.getType().isAir()) {
