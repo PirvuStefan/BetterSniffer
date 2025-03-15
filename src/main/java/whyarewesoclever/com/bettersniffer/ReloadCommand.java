@@ -83,7 +83,7 @@ public class ReloadCommand extends BukkitCommand {
 
                 // bettersniffer create <name> <chance> <worlds>
                 if( strings.length < 4){
-                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too few arguments . Try /bettersniffer create <name> <chance> <worlds>");
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too few arguments . Try /bettersniffer create <name> <chance> <biomes>");
                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Also hold the item you want to create a drop configuration for in your main hand");
                     return false;
                 }
