@@ -1,9 +1,13 @@
 package whyarewesoclever.com.bettersniffer;
 
+import de.tr7zw.nbtapi.NBT;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,12 +34,12 @@ public class ReloadCommand extends BukkitCommand {
             boolean permission = sender.hasPermission("bettersniffer.commands");
            if(!permission){
                if( s.equals("reload") ){
-                   if( !sender.hasPermission("bettersniffer.reload"))
-                       permission = false ;
+                   if( sender.hasPermission("bettersniffer.reload"))
+                       permission = true ;
                }
                if( s.equals("create") ){
-                   if( !sender.hasPermission("bettersniffer.create"))
-                       permission = false ;
+                   if( sender.hasPermission("bettersniffer.create"))
+                       permission = true ;
                }
            }
            if( !permission ){
@@ -82,9 +86,19 @@ public class ReloadCommand extends BukkitCommand {
                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too few arguments . Try /bettersniffer create <name> <chance> <worlds>");
                     return false;
                 }
+                if( !( sender instanceof Player )){
+                    getLogger().info("This command can only be run by a player");
+                    return false;
+                }
 
+        ItemStack itemInMainHand = ((Player) sender).getInventory().getItemInMainHand();
+                String material = itemInMainHand.getType().name();
+        if (itemInMainHand.getType().isAir()) {
+            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "You must hold an item in your hand to create a drop configuration");
+            ((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 10, 1);
+            return false;
+        }
 
-                getLogger().info("Acum am ajuns aici");
                 String name_id = strings[1];
                 String chance = strings[2];
                 List <String> biomes = new java.util.ArrayList<>(Collections.singletonList(strings[3]));
@@ -103,6 +117,12 @@ public class ReloadCommand extends BukkitCommand {
             //throw new RuntimeException(e);
 
             }
+
+
+        NBTItem nbtItem = new NBTItem(itemInMainHand);
+        String json = nbtItem.toString();
+        getLogger().info(json);
+        WriteToFile(name_id, chance, biomes, json, material);
 
 
 
@@ -139,6 +159,30 @@ public class ReloadCommand extends BukkitCommand {
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Wrong command. Try /bettersniffer create" );
         else
             getLogger().info("Wrong command. Try /bettersniffer reload");
+    }
+
+    public void WriteToFile(String name_id, String chance, List<String> biomes, String json, String material) {
+
+
+
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterSniffer.getInstance().getDataFolder(), "Drops/" + name_id + ".yml"))) {
+            writer.write("material: " + material + "\n");
+            writer.write("item: " + json + "\n");
+            writer.write("chance_of_drop: " + chance + "\n");
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + name_id + ".yml");
+            throw new RuntimeException(e);
+        } // write the chance to the file
+
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterSniffer.getInstance().getDataFolder(), "Drops/" + name_id + ".yml"), true)) {
+            writer.write("biomes: " + biomes + "\n");
+            writer.write("banned_worlds: " + "[]" + "\n");
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + name_id + ".yml");
+            throw new RuntimeException(e);
+        } // write the biomes to the file
+
+
     }
 
 }
