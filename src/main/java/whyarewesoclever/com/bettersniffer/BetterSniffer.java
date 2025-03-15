@@ -5,17 +5,12 @@ import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Sniffer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -82,11 +77,11 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public class SnifferDrop {
 
-        public String id;
+
         public int chance;
         public List< String > biomes;
-        public SnifferDrop(String id, int chance, List<String> biomes) {
-            this.id = id;
+        public SnifferDrop(int chance, List<String> biomes) {
+
             this.chance = chance;
             this.biomes = biomes;
         }
@@ -95,9 +90,6 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         }
         public int getintChance() {
             return chance;
-        }
-        public String getid() {
-            return id;
         }
         public List<String> getBiomes() {
             return biomes;
