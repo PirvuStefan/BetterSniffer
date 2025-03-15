@@ -77,22 +77,37 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public class SnifferDrop {
 
-
+        public String material;
+        public String json;
         public int chance;
         public List< String > biomes;
-        public SnifferDrop(int chance, List<String> biomes) {
+        public List < String > bannedWorlds;
+        public SnifferDrop(int chance, String material, String json, List<String> biomes, List<String> bannedWorlds) {
 
             this.chance = chance;
             this.biomes = biomes;
+            this.bannedWorlds = bannedWorlds;
+            this.json = json;
+            this.material = material;
         }
         public SnifferDrop(List<String> biomes) {
             this.biomes = biomes;
         }
+
         public int getintChance() {
             return chance;
         }
         public List<String> getBiomes() {
             return biomes;
+        }
+        public List<String> getBannedWorlds() {
+            return bannedWorlds;
+        }
+        public String getJson() {
+            return json;
+        }
+        public String getMaterial() {
+            return material;
         }
 
     }
