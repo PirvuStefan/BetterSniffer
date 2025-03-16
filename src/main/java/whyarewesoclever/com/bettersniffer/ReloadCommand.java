@@ -22,8 +22,8 @@ public class ReloadCommand extends BukkitCommand {
 
     public ReloadCommand(String name) {
         super(name);
-        this.setDescription("Reloads the BetterSniffer config");
-        this.setUsage("/bettersniffer reload");
+        this.setDescription("Create custom sniffing-drops for the Sniffer mob .\n Hold the item you want to create a drop configuration for in your main hand, then run the command .\nReload the config file to apply changes . \n Requires permission bettersniffer.commands");
+        this.setUsage("\n/bettersniffer reload\n/bettersniffer create <name> <chance> <biomes>");
         this.setPermission("bettersniffer.commands");
     }
 
