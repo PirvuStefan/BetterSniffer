@@ -24,7 +24,7 @@ import java.util.*;
 public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public static final Map< String, SnifferDrop > snifferDrops = new HashMap< String, SnifferDrop >();
-
+    boolean enabled = getConfig().getBoolean("Disable");
     public static BetterSniffer getInstance() {
         return getPlugin(BetterSniffer.class);
     }
@@ -178,14 +178,11 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         @EventHandler
         public void onSnifferDrop(EntityDropItemEvent event) {
             if (event.getEntityType() == EntityType.SNIFFER) {
+
+                if(!enabled) return;
                 getLogger().info("A Sniffer has dug the ground!");
 
-                ItemStack item = new ItemStack(Material.DIAMOND);
-                ReadWriteNBT nbt = NBT.parseNBT("{Health:20.0f,Motion:[0.0d,10.0d,0.0d],Silent:1b}");
-                NBTItem nbtItem = new NBTItem(item);
-                nbtItem.mergeCompound(nbt);
-                //if(Math.random() < 1.9) event.getItemDrop().setItemStack(nbtItem.getItem());
-               // if(Math.random() < 1.1) event.getItemDrop().setItemStack(new ItemStack(Material.EMERALD));
+
 
                 for(SnifferDrop snifferDrop : snifferDrops.values()){
                     if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
