@@ -70,7 +70,7 @@ public class ReloadCommand extends BukkitCommand {
         if (strings[0].equalsIgnoreCase("reload")) {    // arg[0] is "reload"
                     BetterSniffer.getInstance().reloadConfig();
                     BetterSniffer.getInstance().saveDefaultConfig();
-
+                    BetterSniffer.getInstance().initialiseSnifferDrops();
 
                     if (sender instanceof Player) {
                         sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Config file reloaded!");
@@ -99,7 +99,7 @@ public class ReloadCommand extends BukkitCommand {
         ItemStack itemInMainHand = ((Player) sender).getInventory().getItemInMainHand();
                 String material = itemInMainHand.getType().name();
         if (itemInMainHand.getType().isAir()) {
-            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "You must hold an item in your hand to create a drop configuration");
+            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#b53636") + "You must hold an item in your hand to create a drop configuration");
             ((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 10, 1);
             return false;
         }

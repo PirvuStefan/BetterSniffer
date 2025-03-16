@@ -59,7 +59,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                 getLogger().info("Failed to create folder 'drops'.");
             }
         }
-        InitialiseSnifferDrops();
+        initialiseSnifferDrops();
         getServer().getPluginManager().registerEvents(this, getInstance());
     }
 
@@ -118,7 +118,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
     }
 
 
-    public void InitialiseSnifferDrops() {
+    public void initialiseSnifferDrops() {
 
         snifferDrops.clear();
         File folder = new File(getDataFolder(), "drops");
