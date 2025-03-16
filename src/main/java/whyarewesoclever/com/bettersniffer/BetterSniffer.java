@@ -160,7 +160,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                 } else if (line.startsWith("item: ")) {
                     json = line.substring(6);
                 } else if (line.startsWith("chance_of_drop: ")) {
-                    chance = (int) (Double.parseDouble(line.substring(16)) * 100);
+                    chance = (int) (Double.parseDouble(line.substring(16)));
                 } else if (line.startsWith("biomes: ")) {
                     biomes = Arrays.asList(line.substring(9, line.length() - 1).split(", "));
                 } else if (line.startsWith("banned_worlds: ")) {
@@ -188,7 +188,11 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                 for(SnifferDrop snifferDrop : snifferDrops.values()){
                     if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
                     if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
-                    if(Math.random() * 100 < snifferDrop.getintChance()) {
+                    double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
+
+                    getLogger().info("Chance: " + eventChance);
+                    if(eventChance < snifferDrop.getintChance()) {
+                        getLogger().info(Integer.toString(snifferDrop.getintChance()));
                         ItemStack itemStack = new ItemStack(Material.getMaterial(snifferDrop.getMaterial()));
                         NBTItem nbtItem1 = new NBTItem(itemStack);
                         nbtItem1.mergeCompound(NBT.parseNBT(snifferDrop.getJson()));
@@ -198,6 +202,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
             }
         }
+
 
         private boolean isBannedWorld(Sniffer sniffer, List<String> bannedWorlds) {
             if(bannedWorlds.isEmpty()) return false;
@@ -211,3 +216,6 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
             return biomes.contains(sniffer.getLocation().getBlock().getBiome().name());
         }// checks if the current sniffer is in a biome that is allowed to drop the item/ checks if the current sniffer is in a biome that is allowed to drop the item
 }
+
+
+
