@@ -210,9 +210,11 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         }// checks if the current sniffer is in a banned world
 
         private boolean isBiome(Sniffer sniffer, List<String> biomes) {
+            getLogger().info(sniffer.getLocation().getBlock().getBiome().name());
             if(biomes.isEmpty()) return true;
             if(biomes.contains("ALL")) return true;
             if(biomes.contains("all")) return true;
+
             return biomes.contains(sniffer.getLocation().getBlock().getBiome().name());
         }// checks if the current sniffer is in a biome that is allowed to drop the item/ checks if the current sniffer is in a biome that is allowed to drop the item
 }
