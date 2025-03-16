@@ -24,7 +24,7 @@ import java.util.*;
 public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public static final Map< String, SnifferDrop > snifferDrops = new HashMap< String, SnifferDrop >();
-    boolean enabled = getConfig().getBoolean("Disable");
+    boolean disabled = getConfig().getBoolean("Disable");
     public static BetterSniffer getInstance() {
         return getPlugin(BetterSniffer.class);
     }
@@ -180,7 +180,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         public void onSnifferDrop(EntityDropItemEvent event) {
             if (event.getEntityType() == EntityType.SNIFFER) {
 
-                if(!enabled) return;
+                if(disabled) return;
                 getLogger().info("A Sniffer has dug the ground!");
 
 
