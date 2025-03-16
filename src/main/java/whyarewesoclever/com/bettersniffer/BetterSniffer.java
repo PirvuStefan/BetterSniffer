@@ -13,11 +13,16 @@ import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.List;
+import java.util.*;
 
 public final class BetterSniffer extends JavaPlugin implements Listener {
+
+    public static final Map< String, SnifferDrop > snifferDrops = new HashMap< String, SnifferDrop >();
 
     public static BetterSniffer getInstance() {
         return getPlugin(BetterSniffer.class);
@@ -54,7 +59,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                 getLogger().info("Failed to create folder 'drops'.");
             }
         }
-
+        InitialiseSnifferDrops();
         getServer().getPluginManager().registerEvents(this, getInstance());
     }
 
@@ -110,6 +115,62 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
             return material;
         }
 
+    }
+
+
+    public void InitialiseSnifferDrops() {
+
+        snifferDrops.clear();
+        File folder = new File(getDataFolder(), "drops");
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    String name = file.getName();
+                    String name_id = name.substring(0, name.length() - 4);
+                    SnifferDrop snifferDrop = parseSnifferDrop(file);
+
+                    snifferDrops.put(name_id, snifferDrop);
+                    getLogger().info("Loaded Sniffer Drop: " + name_id);
+                    getLogger().info("Material: " + snifferDrop.getMaterial());
+                    getLogger().info("Item: " + snifferDrop.getJson());
+                    getLogger().info("Chance: " + snifferDrop.getintChance());
+                    getLogger().info("Biomes: " + snifferDrop.getBiomes());
+                    getLogger().info("Banned Worlds: " + snifferDrop.getBannedWorlds());
+                    if(!snifferDrop.biomes.isEmpty()) getLogger().info("Sa vedem daca merge: " + snifferDrop.biomes.get(0));
+                }
+            }
+        }
+    }
+
+    public SnifferDrop parseSnifferDrop(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String material = "";
+            String json = "";
+            int chance = 0;
+            List<String> biomes = new ArrayList<>();
+            List<String> bannedWorlds = new ArrayList<>();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("material: ")) {
+                    material = line.substring(10);
+                } else if (line.startsWith("item: ")) {
+                    json = line.substring(6);
+                } else if (line.startsWith("chance_of_drop: ")) {
+                    chance = (int) (Double.parseDouble(line.substring(16)) * 100);
+                } else if (line.startsWith("biomes: ")) {
+                    biomes = Arrays.asList(line.substring(9, line.length() - 1).split(", "));
+                } else if (line.startsWith("banned_worlds: ")) {
+                    bannedWorlds = Arrays.asList(line.substring(16, line.length() - 1).split(", "));
+                }
+            }
+
+            return new SnifferDrop(chance, material, json, biomes, bannedWorlds);
+        } catch (IOException e) {
+            getLogger().warning("Could not read file " + file.getName());
+            throw new RuntimeException(e);
+        }
     }
 
 
