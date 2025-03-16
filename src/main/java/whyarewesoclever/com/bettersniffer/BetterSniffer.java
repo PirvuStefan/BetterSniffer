@@ -33,6 +33,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("BetterSniffer has been enabled!");
+        saveDefaultConfig();
         try {
             final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
