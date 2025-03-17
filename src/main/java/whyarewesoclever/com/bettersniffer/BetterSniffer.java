@@ -25,7 +25,6 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public static final Map< String, SnifferDrop > snifferDrops = new HashMap< String, SnifferDrop >();
     boolean disabled = getConfig().getBoolean("Disable");
-    boolean override = getConfig().getBoolean("OverrideVanillaDrops");
     public static BetterSniffer getInstance() {
         return getPlugin(BetterSniffer.class);
     }
@@ -87,10 +86,10 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
         public String material;
         public String json;
-        public int chance;
+        public double chance;
         public List< String > biomes;
         public List < String > bannedWorlds;
-        public SnifferDrop(int chance, String material, String json, List<String> biomes, List<String> bannedWorlds) {
+        public SnifferDrop(double chance, String material, String json, List<String> biomes, List<String> bannedWorlds) {
 
             this.chance = chance;
             this.biomes = biomes;
@@ -102,7 +101,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
             this.biomes = biomes;
         }
 
-        public int getintChance() {
+        public double getintChance() {
             return chance;
         }
         public List<String> getBiomes() {
@@ -150,7 +149,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String material = "";
             String json = "";
-            int chance = 0;
+            double chance = 0;
             List<String> biomes = new ArrayList<>();
             List<String> bannedWorlds = new ArrayList<>();
 
@@ -161,7 +160,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                 } else if (line.startsWith("item: ")) {
                     json = line.substring(6);
                 } else if (line.startsWith("chance_of_drop: ")) {
-                    chance = (int) (Double.parseDouble(line.substring(16)));
+                    chance = (double) (Double.parseDouble(line.substring(16)));
                 } else if (line.startsWith("biomes: ")) {
                     biomes = Arrays.asList(line.substring(9, line.length() - 1).split(", "));
                 } else if (line.startsWith("banned_worlds: ")) {
@@ -183,48 +182,34 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
                 if(disabled) return;
                 getLogger().info("A Sniffer has dug the ground!");
+                EventTester(event);
 
-
-
-                if(!override)
-                    for(SnifferDrop snifferDrop : snifferDrops.values()){
-                    if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
-                    if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
-                    double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
-
-                    getLogger().info("Chance: " + eventChance);
-                    if(eventChance < snifferDrop.getintChance()) {
-                        getLogger().info(Integer.toString(snifferDrop.getintChance()));
-                        ItemStack itemStack = new ItemStack(Material.getMaterial(snifferDrop.getMaterial()));
-                        NBTItem nbtItem1 = new NBTItem(itemStack);
-                        nbtItem1.mergeCompound(NBT.parseNBT(snifferDrop.getJson()));
-                        event.getItemDrop().setItemStack(nbtItem1.getItem());
-                    }
-                    }
-                else{
-                    for(int i  = 0 ;i<=100000;i++){ // 1000 tries to get a drop
-                        for(SnifferDrop snifferDrop : snifferDrops.values()){
-                            if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
-                            if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
-                            double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
-
-                            getLogger().info("Chance: " + eventChance);
-                            if(eventChance < snifferDrop.getintChance()) {
-                                getLogger().info(Integer.toString(snifferDrop.getintChance()));
-                                ItemStack itemStack = new ItemStack(Material.getMaterial(snifferDrop.getMaterial()));
-                                NBTItem nbtItem1 = new NBTItem(itemStack);
-                                nbtItem1.mergeCompound(NBT.parseNBT(snifferDrop.getJson()));
-                                event.getItemDrop().setItemStack(nbtItem1.getItem());
-                            }
-                        }
-                    }
-                }
 
             }
         }
 
+    private void EventTester(EntityDropItemEvent event) {
+        SnifferDrop snifferInCase = null;
 
-        private boolean isBannedWorld(Sniffer sniffer, List<String> bannedWorlds) {
+        for(SnifferDrop snifferDrop : snifferDrops.values()){
+            if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
+            if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
+            double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
+            snifferInCase = snifferDrop;
+            getLogger().info("Chance: " + eventChance);
+            if(eventChance < snifferDrop.getintChance()) {
+                getLogger().info(Double.toString(snifferDrop.getintChance()));
+                ItemStack itemStack = new ItemStack(Material.getMaterial(snifferDrop.getMaterial()));
+                NBTItem nbtItem1 = new NBTItem(itemStack);
+                nbtItem1.mergeCompound(NBT.parseNBT(snifferDrop.getJson()));
+                event.getItemDrop().setItemStack(nbtItem1.getItem());
+            }
+        }
+
+    }
+
+
+    private boolean isBannedWorld(Sniffer sniffer, List<String> bannedWorlds) {
             if(bannedWorlds.isEmpty()) return false;
             return bannedWorlds.contains(sniffer.getWorld().getName());
         }// checks if the current sniffer is in a banned world

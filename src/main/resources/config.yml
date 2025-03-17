@@ -1,22 +1,22 @@
 # Configuration for BetterSniffer plugin
 Disable : false # Disable the plugin functionality, the plugin will no longer add the "drops" to the sniffer loot table
-OverrideVanillaDrops : false # The sniffer will never drop the vanilla items ( seeds, bones, rotten flesh, etc. ) and will only drop the custom items configured in the plugin
 # To create a new drop, run the command /bettersniffer create <name> <chance> <biomes>
 # Hold the item you want to drop in your main hand and run the command
 # Example: /bettersniffer create name 20 PLAINS RIVER DESERT
 # This will create a new drop called "name.yml" with a 20% chance to drop in the biomes PLAINS, RIVER, and DESERT
 # To view all the drops configurations you have made, look into the folder "drops" in the BetterSniffer directory
 # To remove a drop, simply delete the file from the "drops" folder
-# Placeholders: - ALL              - All biomes / All worlds
+# Placeholders: - ALL              - All biomes / All worlds ( place this in the biomes list to make the drop available in all biomes, or in the banned_worlds list to ban it from all worlds )
 # If you do want to ban specific worlds, add them to the banned_worlds list in the name.yml file
 # Example of a name.yml file:
 #material: COOKED_BEEF
 #item: {}
 #chance_of_drop: 20
 #biomes: [PLAINS, RIVER, DESERT]
-#banned_worlds: [world_nether, world_the_end, wolrd_name, a_very_cool_world]
+#banned_worlds: [world_nether, world_the_end, word_name, a_very_cool_world]
 
 # That specific item will have a 20% chance to drop in the biomes PLAINS, RIVER, and DESERT, but not in the worlds world_nether, world_the_end, wolrd_name, a_very_cool_world
+# By default, all the drops configuration are available in all the worlds, banned_worlds : [] will make the drop available in all the worlds, go in that specific yml file and add as you wish, seperated by a comma
 # Run the command /bettersniffer reload to reload the plugin configuration and apply the changes
 
 # $ PERMISSIONS $ #

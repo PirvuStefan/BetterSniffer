@@ -106,6 +106,8 @@ public class ReloadCommand extends BukkitCommand {
 
                 String name_id = strings[1];
                 String chance = strings[2];
+                chance = chance.replace("%", "");
+
                 List <String> biomes = new java.util.ArrayList<>(Collections.singletonList(strings[3]));
                 biomes.addAll(Arrays.asList(strings).subList(4, strings.length));
              try {
