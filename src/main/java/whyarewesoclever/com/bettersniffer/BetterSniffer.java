@@ -32,6 +32,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        asciiArt();
         getLogger().info("BetterSniffer has been enabled!");
         saveDefaultConfig();
         if(disabled) {
@@ -213,6 +214,13 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
     }
 
+    private void asciiArt() {
+       getLogger().info("____  _____ _____ _____ _____ ____  ____  _      _  _____ _____ _____ ____");
+       getLogger().info("/  __\\/  __//__ __Y__ __Y  __//  __\\/ ___\\/ \\  /|/ \\/    //    //  __//  __\\");
+       getLogger().info("| | //|  \\    / \\   / \\ |  \\  |  \\/||    \\| |\\ ||| ||  __\\|  __\\|  \\  |  \\/|");
+       getLogger().info("| |_\\\\|  /_   | |   | | |  /_ |    /\\___ || | \\||| || |   | |   |  /_ |    /");
+       getLogger().info("\\____/\\____\\  \\_/   \\_/ \\____\\\\_/\\_\\\\____/\\_/  \\|\\_/\\_/   \\_/   \\____\\\\_/\\_\\");
+    }
 
     private boolean isBannedWorld(Sniffer sniffer, List<String> bannedWorlds) {
             if(bannedWorlds.isEmpty()) return false;
