@@ -29,3 +29,12 @@ OverwriteVanilla : false # The sniffer will never drop the vanilla items ( seeds
 # /bettersniffer create <name> <chance> <biomes> - Creates a new drop
 
 # Operators have all the permissions by default
+
+# Probabilities Theory
+#
+# Note that drops with the same criteria( same biome, in a valid world ) will be tested in order displayed in the 'drops' folder
+# You should name the files in the 'drops' folder in a way that the order of the drops is the order you want them to be tested
+# As an example drop_1_item.yml will be tested before drop_2_item.yml ; use this to your advantage to create a hierarchy of drops, name them accordingly like drop_1_cool_item.yml, drop_2_another_cool_item.yml, etc.
+# You can obviously name the files however you want, but it will be easier to manage them .
+# The sum of all the chances of the drops that have the same criteria should be equal to 100, they can exceed 100, but the percentage will be calibrated. ( if you do have 6 drops with 20% each, the percentage will be calibrated to 16.66 % ) .
+# The sniffer will only dig one block, so the drop will be the first one that meets the criteria, if the sniffer does not find any drop that meets the criteria, it will drop the vanilla items.
