@@ -1,6 +1,6 @@
 # Configuration for BetterSniffer plugin
 Disable : false # Disable the plugin functionality, the plugin will no longer add the "drops" to the sniffer loot table
-OverwriteVanilla : false # The sniffer will never drop the vanilla items ( seeds, bones, rotten flesh, etc. ) and will only drop the custom items configured in the plugin
+OverrideVanillaDrops : false # The sniffer will never drop the vanilla items ( seeds, bones, rotten flesh, etc. ) and will only drop the custom items configured in the plugin
 # To create a new drop, run the command /bettersniffer create <name> <chance> <biomes>
 # Hold the item you want to drop in your main hand and run the command
 # Example: /bettersniffer create name 20 PLAINS RIVER DESERT

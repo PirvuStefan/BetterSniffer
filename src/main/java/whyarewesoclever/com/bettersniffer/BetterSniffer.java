@@ -25,6 +25,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public static final Map< String, SnifferDrop > snifferDrops = new HashMap< String, SnifferDrop >();
     boolean disabled = getConfig().getBoolean("Disable");
+    boolean override = getConfig().getBoolean("OverrideVanillaDrops");
     public static BetterSniffer getInstance() {
         return getPlugin(BetterSniffer.class);
     }
@@ -185,7 +186,8 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
 
 
 
-                for(SnifferDrop snifferDrop : snifferDrops.values()){
+                if(!override)
+                    for(SnifferDrop snifferDrop : snifferDrops.values()){
                     if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
                     if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
                     double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
@@ -197,6 +199,24 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                         NBTItem nbtItem1 = new NBTItem(itemStack);
                         nbtItem1.mergeCompound(NBT.parseNBT(snifferDrop.getJson()));
                         event.getItemDrop().setItemStack(nbtItem1.getItem());
+                    }
+                    }
+                else{
+                    for(int i  = 0 ;i<=100000;i++){ // 1000 tries to get a drop
+                        for(SnifferDrop snifferDrop : snifferDrops.values()){
+                            if( isBannedWorld((Sniffer) event.getEntity(), snifferDrop.getBannedWorlds()) ) continue;
+                            if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
+                            double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
+
+                            getLogger().info("Chance: " + eventChance);
+                            if(eventChance < snifferDrop.getintChance()) {
+                                getLogger().info(Integer.toString(snifferDrop.getintChance()));
+                                ItemStack itemStack = new ItemStack(Material.getMaterial(snifferDrop.getMaterial()));
+                                NBTItem nbtItem1 = new NBTItem(itemStack);
+                                nbtItem1.mergeCompound(NBT.parseNBT(snifferDrop.getJson()));
+                                event.getItemDrop().setItemStack(nbtItem1.getItem());
+                            }
+                        }
                     }
                 }
 
