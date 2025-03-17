@@ -34,6 +34,11 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         // Plugin startup logic
         getLogger().info("BetterSniffer has been enabled!");
         saveDefaultConfig();
+        if(disabled) {
+            getLogger().warning("BetterSniffer is disabled in the config file. Please enable it to use the plugin.");
+            getLogger().info("Change the Disable value in the config.yml file in the BetterSniffer folder to enable the plugin. Otherwise, the sniffer will only dig for the vanilla items .");
+            getLogger().info("Or do as you wish, we are not your parents.");
+        }
         try {
             final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
