@@ -71,6 +71,7 @@ public class ReloadCommand extends BukkitCommand {
                     BetterSniffer.getInstance().reloadConfig();
                     BetterSniffer.getInstance().saveDefaultConfig();
                     BetterSniffer.getInstance().initialiseSnifferDrops();
+                    BetterSniffer.getInstance().disabled = BetterSniffer.getInstance().getConfig().getBoolean("Disable");
 
                     if (sender instanceof Player) {
                         sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Config file reloaded!");
