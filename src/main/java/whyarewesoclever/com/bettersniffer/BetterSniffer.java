@@ -166,7 +166,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                 } else if (line.startsWith("item: ")) {
                     json = line.substring(6);
                 } else if (line.startsWith("chance_of_drop: ")) {
-                    chance = (double) (Double.parseDouble(line.substring(16)));
+                    chance =  (Double.parseDouble(line.substring(16)));
                 } else if (line.startsWith("biomes: ")) {
                     biomes = Arrays.asList(line.substring(9, line.length() - 1).split(", "));
                 } else if (line.startsWith("banned_worlds: ")) {
