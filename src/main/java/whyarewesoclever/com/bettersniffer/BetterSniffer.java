@@ -24,7 +24,7 @@ import java.util.*;
 public final class BetterSniffer extends JavaPlugin implements Listener {
 
     public static final Map< String, SnifferDrop > snifferDrops = new HashMap< String, SnifferDrop >();
-    boolean disabled = getConfig().getBoolean("Disable");
+    boolean enabled = getConfig().getBoolean("Enable");
     public static BetterSniffer getInstance() {
         return getPlugin(BetterSniffer.class);
     }
@@ -35,7 +35,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         asciiArt();
         getLogger().info("BetterSniffer has been enabled!");
         saveDefaultConfig();
-        if(disabled) {
+        if(!enabled) {
             getLogger().warning("BetterSniffer is disabled in the config file. Please enable it to use the plugin.");
             getLogger().info("Change the Disable value in the config.yml file in the BetterSniffer folder to enable the plugin. Otherwise, the sniffer will only dig for the vanilla items .");
             getLogger().info("Or do as you wish, we are not your parents.");
@@ -139,13 +139,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
                     SnifferDrop snifferDrop = parseSnifferDrop(file);
 
                     snifferDrops.put(name_id, snifferDrop);
-                    getLogger().info("Loaded Sniffer Drop: " + name_id);
-                    getLogger().info("Material: " + snifferDrop.getMaterial());
-                    getLogger().info("Item: " + snifferDrop.getJson());
-                    getLogger().info("Chance: " + snifferDrop.getintChance());
-                    getLogger().info("Biomes: " + snifferDrop.getBiomes());
-                    getLogger().info("Banned Worlds: " + snifferDrop.getBannedWorlds());
-                    if(!snifferDrop.biomes.isEmpty()) getLogger().info("Sa vedem daca merge: " + snifferDrop.biomes.get(0));
+
                 }
             }
         }
@@ -186,8 +180,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
         public void onSnifferDrop(EntityDropItemEvent event) {
             if (event.getEntityType() == EntityType.SNIFFER) {
 
-                if(disabled) return;
-                getLogger().info("A Sniffer has dug the ground!");
+                if(!enabled) return;
                 EventTester(event);
 
 
