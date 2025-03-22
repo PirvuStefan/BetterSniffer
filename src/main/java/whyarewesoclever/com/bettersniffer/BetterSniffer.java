@@ -195,7 +195,7 @@ public final class BetterSniffer extends JavaPlugin implements Listener {
             if(  !isBiome((Sniffer) event.getEntity(), snifferDrop.getBiomes()) ) continue;
             double eventChance =  new java.security.SecureRandom().nextDouble() * 100;
             snifferInCase = snifferDrop;
-            getLogger().info("Chance: " + eventChance);
+            //getLogger().info("Chance: " + eventChance);
             if(eventChance < snifferDrop.getintChance()) {
                 getLogger().info(Double.toString(snifferDrop.getintChance()));
                 ItemStack itemStack = new ItemStack(Material.getMaterial(snifferDrop.getMaterial()));
